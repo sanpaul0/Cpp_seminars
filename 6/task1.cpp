@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#define N 5
 
 using namespace std;
 
@@ -86,18 +87,17 @@ class Master{
         int age;
         int ncats;
         int ndogs;
-        
-        Cat cat;
-    public:
+        Cat** cats;
         Dog dog;
-        Master(string name, string surname, int aage, int ancats, int andogs, Dog d, Cat c){
+    public:
+        Master(string name, string surname, int aage, int ancats, int andogs, Dog d, Cat** c){
             FIO.Name = name;
             FIO.Surname = surname;
             age = aage;
             ncats = ancats;
             ndogs = andogs; 
             this->dog = d;
-            this->cat = c;
+            cats = c;
         }
         friend class Vet;
 
@@ -110,21 +110,23 @@ class Vet{
         Vet(string name, string surname){
             FIo.Name = name;
             FIo.Surname = surname;
-            cout<<"if\n";
         }
         void medex(Master* m, string animal){
-            
             if (animal == "cat"){
-                m->cat.HP +=10;
+                for (int i=0; i<N; i++){
+                    m->cats[i]->HP +=10;
+                    m->cats[i]->show_inf();
+                }
+                
             }
             else{
-                cout<<"f\n";
                 m->dog.HP +=10;
+                m->dog.show_inf();
         
             }
         }
-        void talkToMaster(Master m){
-            cout << "I talk with" << m.FIO.Name << " " << m.FIO.Surname; 
+        void talkToMaster(Master* m){
+            cout << "I talk with" << m->FIO.Name << " " << m->FIO.Surname; 
         }
 
 };
@@ -132,13 +134,17 @@ class Vet{
 int main(){
     string cname, cbreed;
     int cage;
-    cout << "\nEnter cat's name:";
-    cin >> cname;
-    cout << "\nEnter cat's breed:";
-    cin >> cbreed;
-    cout << "\nEnter cat's age:";
-    cin >> cage;
-    Cat cat1(cbreed, cname, cage);
+    Cat* cats[N];
+    for (int i=0; i<N; i++){
+        cout << "\nEnter cat's name:";
+        cin >> cname;
+        cout << "\nEnter cat's breed:";
+        cin >> cbreed;
+        cout << "\nEnter cat's age:";
+        cin >> cage;       
+        cats[i] = new Cat(cbreed, cname, cage); 
+    }
+    Cat** c =cats;
     string dname, dbreed;
     int dage;
     cout << "\nEnter dog's name:";
@@ -156,12 +162,12 @@ int main(){
     cin >> msurname;
     cout << "\nEnter master's age:";
     cin >> mage;
-    Master master1(mname, msurname, mage, 1, 1, dog1, cat1);
+    Master master1(mname, msurname, mage, 1, 1, dog1, c);
     Master* m;
     m = &master1;
-    cat1.makeSound();
+    cats[1]->makeSound();
     dog1.makeSound();
     Vet v = Vet("Ivan", "Ivanov");
     v.medex(m, "dog");
-    master1.dog.show_inf();
+    
 }
