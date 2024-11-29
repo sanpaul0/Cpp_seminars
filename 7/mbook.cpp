@@ -155,12 +155,10 @@ class Book{
     public:
     vector<Chapter*> chapters;
     string name;
-    vector<Spell*> spells;
-    Book(vector<Chapter*> c, string n, vector<Spell*> s){
+    Book(vector<Chapter*> c, string n){
         chapters = c;
         name = n;
-        spells = s;
-     }
+    }
     void inf(){
         int S = chapters.size();
         cout<<"Book's name: "<<name<<"\n";
@@ -169,6 +167,9 @@ class Book{
             chapters[i]->inf();
         }
 
+    }
+    void addChapter(Chapter* c){
+        chapters.push_back(c);
     }
 
 };
@@ -292,8 +293,10 @@ class Visard: public Creature{
 
 int main(){
     Attack* G = new Attack(10, 0, 0, 15, "Grace");
-    Chapter c(G, "Attack");
-    c.inf();
+    Chapter* c = new Chapter(G, "Attack");
+    vector<Chapter*> cc = {c};
+    Book b(cc, "name");
+    c->inf();
     Deffence* GS = new Deffence(5, 3, 10, true, "God's shield");
     Unforgivable* LB = new Unforgivable(25, true, 50, "Light betrayl");
     Effects* AF = new Effects(12, 0, 0, 0, "Armor of Fair");
