@@ -56,8 +56,8 @@ class Deffence : public Spell {    //2
     int HP;
     int def;
     bool shield;
-    Deffence(int HP, int d, int m, bool s, string n){
-        HP = HP;
+    Deffence(int hp, int d, int m, bool s, string n){
+        HP = hp;
         def = d;
         vmana = m;
         name = n;
@@ -292,37 +292,37 @@ class Visard: public Creature{
 };
 
 int main(){
-    Attack* G = new Attack(10, 0, 0, 15, "Grace");
-    Chapter* c = new Chapter(G, "Attack");
-    vector<Chapter*> cc = {c};
+    Attack G(10, 0, 0, 15, "Grace");
+    Chapter c(&G, "Attack");
+    vector<Chapter*> cc = {&c};
     Book b(cc, "name");
-    c->inf();
-    Deffence* GS = new Deffence(5, 3, 10, true, "God's shield");
-    Unforgivable* LB = new Unforgivable(25, true, 50, "Light betrayl");
-    Effects* AF = new Effects(12, 0, 0, 0, "Armor of Fair");
-    Household* WD = new Household("Fast washing dish", 10, "Wash dish");
-    Visard Uter = Visard(100, 0, 7, 5, 100, G, GS, WD, LB, AF);
-    Warrior* w = new Warrior(100, 0, 15, 10);
+    c.inf();
+    Deffence GS(5, 3, 10, true, "God's shield");
+    Unforgivable LB(25, true, 50, "Light betrayl");
+    Effects AF(12, 0, 0, 0, "Armor of Fair");
+    Household WD("Fast washing dish", 10, "Wash dish");
+    Visard Uter(100, 0, 7, 5, 100, &G, &GS, &WD, &LB, &AF);
+    Warrior w(100, 0, 15, 10);
     try
     {
-        Uter.useAttackSpell(w);
+        Uter.useAttackSpell(&w);
     }
     catch (const string& error) {
     cerr << "Error: " << error << endl;
     }
-    w->inf();
+    w.inf();
     try
     {
-        Uter.useUnforgivableSpell(w);
+        Uter.useUnforgivableSpell(&w);
     }
     catch (const string& error) {
     cerr << "Error: " << error << endl;
     }
-    w->inf();
+    w.inf();
     
     try
     {
-        Uter.useUnforgivableSpell(w);
+        Uter.useUnforgivableSpell(&w);
     }
     catch (const string& error) {
     cerr << "Error: " << error << endl;
@@ -330,7 +330,3 @@ int main(){
     Uter.inf();
     }
     
-    
-
-    
-
