@@ -1,0 +1,2 @@
+number of wizards: 1
+number of grunts: 2
